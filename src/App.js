@@ -16,6 +16,7 @@ import Contact from './pages/Contact';
 // Vježbe
 import Recipes from './components/vjezbe/Recipes';
 import Posts from './components/vjezbe/Posts';
+import Users from './components/vjezbe/Users';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route path="/posts" element={<Posts />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
 
       <Footer />
