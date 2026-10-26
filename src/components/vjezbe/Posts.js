@@ -5,9 +5,9 @@ function Posts(){
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetch("https://dummyjson.com/posts")
+        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/posts")
             .then(res => res.json())
-            .then(data => setPosts(data.posts))
+            .then(data => setPosts(data))
             .catch(err => console.error(err));
     }, []);
 
@@ -19,18 +19,8 @@ function Posts(){
                 posts.map(clanak => {
                     return (
                         <div className="col-md-3 mb-3" key={clanak.id}>
-                            <h2>{clanak.title}</h2>
-                            <p><strong>{clanak.body}</strong></p>
-                            <p>
-                                {
-                                clanak.tags.map(tag => {
-                                    return <span className="badge bg-primary me-1">{tag}</span>
-                                })    
-                            }
-                            </p>
-                            <p>Broj lajkova: {clanak.reactions.likes}</p>
-                            <p>Broj dislajkova: {clanak.reactions.dislikes}</p>
-                            <p>Broj pregleda: {clanak.views}</p>
+                            <h2>{clanak.title.rendered}</h2>
+                            <div dangerouslySetInnerHTML={{__html: clanak.content.rendered}}></div>
                         </div>
                     );
                 })
