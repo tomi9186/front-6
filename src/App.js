@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Works from './pages/Works';
 import Blog from './pages/Blog';
+import BlogSingle from './pages/BlogSingle';
 import Contact from './pages/Contact';
 
 // Vježbe
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/works" element={<Works />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogSingle />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route path="/posts" element={<Posts />} />

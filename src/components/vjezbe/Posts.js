@@ -5,7 +5,7 @@ function Posts(){
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/posts")
+        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/posts?author=1")
             .then(res => res.json())
             .then(data => setPosts(data))
             .catch(err => console.error(err));
