@@ -13,8 +13,6 @@ function BlogSingle() {
             .catch(err => console.error(err));
     }, [slug]);
 
-    console.log(post);
-
     if(!post) return <p>Učitavanje...</p>
 
     return (

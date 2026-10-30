@@ -13,6 +13,10 @@ import Works from './pages/Works';
 import Blog from './pages/Blog';
 import BlogSingle from './pages/BlogSingle';
 import Contact from './pages/Contact';
+import Caffe from './pages/Caffe';
+import CaffeSingle from './pages/CaffeSingle';
+import Restaurant from './pages/Restaurant';
+import RestaurantSingle from './pages/RestaurantSingle';
 
 // Vježbe
 import Recipes from './components/vjezbe/Recipes';
@@ -34,6 +38,14 @@ function App() {
         <Route path="/recipes" element={<Recipes />} />
         <Route path="/posts" element={<Posts />} />
         <Route path="/users" element={<Users />} />
+
+        <Route path="/kafici" element={<Caffe />} />
+        <Route path="/kafic/:slug" element={<CaffeSingle />} />
+
+        <Route path="/restorani" element={<Restaurant />} />
+        <Route path="/restoran/:slug" element={<RestaurantSingle />} />
+
+
       </Routes>
 
       <Footer />
