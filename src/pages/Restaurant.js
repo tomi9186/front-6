@@ -5,7 +5,7 @@ function Caffe(){
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/venue?venue_type=94")
+        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/venue?_fields=slug,title,acf,excerpt")
             .then(res => res.json())
             .then(data => setPosts(data))
             .catch(err => console.error(err));
