@@ -14,8 +14,6 @@ function Page({pageID}){
 
     if(!page) return <h3>učitavanje...</h3>
 
-    console.log(pageID);
-
     return (
         <div className="container">
             <h1 className="display-4 text-center py-5" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
