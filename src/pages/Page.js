@@ -1,18 +1,20 @@
 import {useState, useEffect} from 'react';
 
 
-function Page(){
+function Page({pageID}){
 
     const [page, setPage] = useState(null);
 
     useEffect(() => {
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/pages/285")
+        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/pages/" + pageID)
             .then(res => res.json())
             .then(data => setPage(data))
             .catch(err => console.error(err));
-    }, [])
+    }, [pageID])
 
     if(!page) return <h3>učitavanje...</h3>
+
+    console.log(pageID);
 
     return (
         <div className="container">

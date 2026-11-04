@@ -16,6 +16,7 @@ function Footer() {
             </p>
             <p>
                 <Link to="/privatnost">Pravila Privatnosti</Link>
+                <Link to="/kolacici">Politika kolačića</Link>
                 Copyright ©2020 All rights reserved 
             </p>
             </div>
