@@ -17,6 +17,7 @@ import Caffe from './pages/Caffe';
 import CaffeSingle from './pages/CaffeSingle';
 import Restaurant from './pages/Restaurant';
 import RestaurantSingle from './pages/RestaurantSingle';
+import Page from './pages/Page';
 
 // Vježbe
 import Recipes from './components/vjezbe/Recipes';
@@ -45,6 +46,7 @@ function App() {
         <Route path="/restorani" element={<Restaurant />} />
         <Route path="/restoran/:slug" element={<RestaurantSingle />} />
 
+        <Route path="/privatnost" element={<Page />} />
 
       </Routes>
 
