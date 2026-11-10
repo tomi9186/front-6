@@ -294,3 +294,697 @@ a{
         padding-top: 1rem;
     }
 }
+
+
+/* =========================================
+   MENUTO PRICING PAGE
+========================================= */
+
+.pricing-page {
+    overflow: hidden;
+    background: #ffffff;
+    color: #17231b;
+}
+
+.pricing-page .container {
+    max-width: 1200px;
+}
+
+.pricing-page a {
+    text-decoration: none;
+}
+
+.pricing-eyebrow {
+    display: inline-flex;
+    padding: 7px 14px;
+    border-radius: 30px;
+    background: #edf5e9;
+    color: #075b2b;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .4px;
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.pricing-hero {
+    padding: 75px 0 45px;
+    text-align: center;
+    background: linear-gradient(180deg, #f8fbf7, #ffffff);
+}
+
+.pricing-hero h1 {
+    max-width: 800px;
+    margin: 20px auto 15px;
+    color: #17231b;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -1.8px;
+}
+
+.pricing-hero h1 span {
+    display: block;
+    color: #075b2b;
+}
+
+.pricing-hero > .container > p {
+    max-width: 600px;
+    margin: 0 auto;
+    color: #68746b;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* BILLING TOGGLE */
+
+.pricing-billing {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    margin-top: 30px;
+    border: 1px solid #e5ece4;
+    border-radius: 12px;
+    background: #f6f9f5;
+}
+
+.pricing-billing button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 17px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #647068;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.pricing-billing button.active {
+    background: #ffffff;
+    color: #075b2b;
+    box-shadow: 0 2px 8px rgba(0,0,0,.07);
+}
+
+.pricing-billing button span {
+    padding: 4px 7px;
+    border-radius: 5px;
+    background: #e5f2e2;
+    color: #075b2b;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+/* =========================================
+   PRICING CARDS
+========================================= */
+
+.pricing-plans {
+    padding: 25px 0 80px;
+}
+
+.pricing-card {
+    position: relative;
+    height: 100%;
+    padding: 32px 27px;
+    border: 1px solid #e5ece4;
+    border-radius: 17px;
+    background: #ffffff;
+    transition: all .25s ease;
+}
+
+.pricing-card:hover {
+    border-color: #b9d5b7;
+    box-shadow: 0 15px 40px rgba(15, 50, 25, .07);
+    transform: translateY(-4px);
+}
+
+.pricing-card-popular {
+    border: 2px solid #075b2b;
+    box-shadow: 0 10px 35px rgba(7, 91, 43, .09);
+}
+
+.pricing-popular-label {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    padding: 7px 17px;
+    border-radius: 30px;
+    background: #075b2b;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.pricing-plan-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 20px;
+    border-radius: 13px;
+    background: #edf5e9;
+    color: #075b2b;
+    font-size: 25px;
+}
+
+.pricing-card-header h2 {
+    margin-bottom: 8px;
+    color: #17231b;
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.pricing-card-header p {
+    min-height: 44px;
+    margin: 0;
+    color: #788178;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* PRICE */
+
+.pricing-price {
+    min-height: 105px;
+    padding: 23px 0 17px;
+}
+
+.pricing-price > div {
+    display: flex;
+    align-items: flex-start;
+    gap: 3px;
+}
+
+.pricing-currency {
+    margin-top: 8px;
+    color: #17231b;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.pricing-price strong {
+    color: #17231b;
+    font-size: 43px;
+    font-weight: 850;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.pricing-period {
+    align-self: flex-end;
+    padding-bottom: 5px;
+    color: #879087;
+    font-size: 12px;
+}
+
+.pricing-price small {
+    display: block;
+    margin-top: 9px;
+    color: #075b2b;
+    font-size: 11px;
+}
+
+/* CTA */
+
+.pricing-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 49px;
+    padding: 10px 15px;
+    border: 1px solid #bdd1bd;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #075b2b;
+    font-size: 13px;
+    font-weight: 750;
+    transition: all .2s ease;
+}
+
+.pricing-cta:hover {
+    border-color: #075b2b;
+    background: #edf5e9;
+    color: #075b2b;
+}
+
+.pricing-cta-primary {
+    border-color: #075b2b;
+    background: #075b2b;
+    color: #ffffff;
+}
+
+.pricing-cta-primary:hover {
+    background: #064522;
+    color: #ffffff;
+}
+
+.pricing-divider {
+    height: 1px;
+    margin: 25px 0;
+    background: #edf0ed;
+}
+
+.pricing-card > h3 {
+    margin-bottom: 18px;
+    color: #17231b;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.pricing-features {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.pricing-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #536056;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.pricing-features li svg {
+    flex: 0 0 15px;
+    margin-top: 1px;
+    color: #27964a;
+    font-size: 14px;
+}
+
+.pricing-note {
+    margin: 25px 0 0;
+    color: #89918a;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+.pricing-section-heading {
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+.pricing-section-heading h2 {
+    margin: 15px 0 12px;
+    color: #17231b;
+    font-size: clamp(28px, 3vw, 37px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1px;
+}
+
+.pricing-section-heading p {
+    margin: 0;
+    color: #68746b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* =========================================
+   BENEFITS
+========================================= */
+
+.pricing-benefits {
+    padding: 75px 0;
+    background: #f7faf6;
+}
+
+.pricing-benefit-card {
+    height: 100%;
+    padding: 25px 20px;
+    border: 1px solid #e8eee6;
+    border-radius: 14px;
+    background: #ffffff;
+    transition: all .2s ease;
+}
+
+.pricing-benefit-card:hover {
+    border-color: #c6dcc3;
+    transform: translateY(-3px);
+}
+
+.pricing-benefit-card > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 49px;
+    height: 49px;
+    margin-bottom: 17px;
+    border-radius: 12px;
+    background: #edf5e9;
+    color: #075b2b;
+    font-size: 24px;
+}
+
+.pricing-benefit-card h3 {
+    margin-bottom: 9px;
+    color: #17231b;
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.pricing-benefit-card p {
+    margin: 0;
+    color: #68746b;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* =========================================
+   COMPARISON TABLE
+========================================= */
+
+.pricing-comparison {
+    padding: 80px 0;
+}
+
+.pricing-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid #e7ede5;
+    border-radius: 14px;
+}
+
+.pricing-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.pricing-table th,
+.pricing-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #edf0ed;
+    color: #536056;
+    font-size: 13px;
+    text-align: center;
+}
+
+.pricing-table th {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: #f7faf6;
+    color: #17231b;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.pricing-table th:first-child,
+.pricing-table td:first-child {
+    width: 40%;
+    text-align: left;
+}
+
+.pricing-table-category td {
+    padding-top: 20px;
+    padding-bottom: 12px;
+    background: #f9fbf8;
+    color: #075b2b;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
+.pricing-check {
+    color: #29964a;
+    font-size: 16px;
+}
+
+.pricing-cross {
+    color: #c7cec7;
+    font-size: 16px;
+}
+
+.pricing-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+/* =========================================
+   FAQ
+========================================= */
+
+.pricing-faq {
+    padding: 75px 0;
+    background: #f8faf7;
+}
+
+.pricing-faq-list {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.pricing-faq-item {
+    padding: 20px 22px;
+    margin-bottom: 12px;
+    border: 1px solid #e7ede5;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.pricing-faq-item summary {
+    position: relative;
+    padding-right: 30px;
+    color: #17231b;
+    font-size: 14px;
+    font-weight: 750;
+    cursor: pointer;
+    list-style: none;
+}
+
+.pricing-faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.pricing-faq-item summary::after {
+    position: absolute;
+    top: -4px;
+    right: 0;
+    color: #075b2b;
+    font-size: 22px;
+    content: "+";
+}
+
+.pricing-faq-item[open] summary::after {
+    content: "−";
+}
+
+.pricing-faq-item p {
+    margin: 14px 0 0;
+    color: #68746b;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* =========================================
+   FINAL CTA
+========================================= */
+
+.pricing-final {
+    padding: 0 0 0;
+}
+
+.pricing-final-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    overflow: hidden;
+    padding: 43px 50px;
+    border-radius: 19px;
+    background: linear-gradient(110deg, #185d39, #064326);
+    color: #ffffff;
+}
+
+.pricing-final-wrapper::after {
+    position: absolute;
+    right: -90px;
+    bottom: -180px;
+    width: 300px;
+    height: 300px;
+    border: 40px solid rgba(255,255,255,.08);
+    border-radius: 50%;
+    content: "";
+}
+
+.pricing-final-wrapper > div {
+    position: relative;
+    z-index: 1;
+}
+
+.pricing-final-wrapper > div:first-child > span {
+    color: #b9dcb7;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.pricing-final-wrapper h2 {
+    margin: 13px 0 9px;
+    color: #ffffff;
+    font-size: clamp(25px, 3vw, 34px);
+    font-weight: 800;
+    letter-spacing: -.8px;
+}
+
+.pricing-final-wrapper p {
+    max-width: 550px;
+    margin: 0;
+    color: #d0e0d3;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.pricing-final-action {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.pricing-final-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-width: 220px;
+    min-height: 52px;
+    padding: 0 20px;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #075b2b;
+    font-size: 14px;
+    font-weight: 750;
+    transition: all .2s ease;
+}
+
+.pricing-final-button:hover {
+    background: #edf5e9;
+    color: #075b2b;
+    transform: translateY(-2px);
+}
+
+.pricing-final-action small {
+    color: #d2e4d3;
+    font-size: 11px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 991.98px) {
+
+    .pricing-final-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 35px;
+    }
+
+    .pricing-final-action {
+        align-items: flex-start;
+    }
+
+}
+
+@media (max-width: 767.98px) {
+
+    .pricing-hero {
+        padding: 55px 0 35px;
+    }
+
+    .pricing-plans,
+    .pricing-comparison,
+    .pricing-benefits,
+    .pricing-faq {
+        padding: 55px 0;
+    }
+
+    .pricing-card {
+        padding: 27px 23px;
+    }
+
+    .pricing-section-heading {
+        margin-bottom: 28px;
+    }
+
+}
+
+@media (max-width: 575.98px) {
+
+    .pricing-hero h1 {
+        font-size: 35px;
+        letter-spacing: -1.2px;
+    }
+
+    .pricing-hero > .container > p {
+        font-size: 13px;
+    }
+
+    .pricing-billing {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pricing-billing button {
+        padding: 10px;
+        font-size: 11px;
+    }
+
+    .pricing-billing button span {
+        font-size: 8px;
+    }
+
+    .pricing-section-heading h2 {
+        font-size: 27px;
+    }
+
+    .pricing-final-wrapper {
+        padding: 28px 22px;
+    }
+
+    .pricing-final-wrapper h2 {
+        font-size: 26px;
+    }
+
+    .pricing-final-action {
+        width: 100%;
+    }
+
+    .pricing-final-button {
+        width: 100%;
+    }
+
+    .pricing-faq-item {
+        padding: 17px;
+    }
+
+    .pricing-faq-item summary {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+}
