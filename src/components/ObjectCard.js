@@ -3,13 +3,8 @@ import WpImage from "./WpImage";
 
 
 import {
-    Search,
     ArrowRight,
     PinMap,
-    CupHot,
-    ForkKnife,
-    X,
-    Sliders
 } from "react-bootstrap-icons";
 
 function ObjectCard({ post, title, excerpt, image, isCafe }) {

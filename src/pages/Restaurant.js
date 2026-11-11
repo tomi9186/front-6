@@ -4,8 +4,6 @@ import ObjectCard from "../components/ObjectCard";
 
 import {
     Search,
-    ArrowRight,
-    PinMap,
     CupHot,
     ForkKnife,
     X,
