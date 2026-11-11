@@ -1,7 +1,6 @@
 import {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
 
-import WpImage from "../components/WpImage";
+import BlogCard from "../components/BlogCard";
 
 import "./Blog.css";
 
@@ -29,7 +28,7 @@ function Blog(){
 
     useEffect(() => {
 
-        let url = "https://front6.edukacija.online/backend/wp-json/wp/v2/posts?_embed&_fields=title,slug,excerpt,_links&author=1";
+        let url = "https://front6.edukacija.online/backend/wp-json/wp/v2/posts?_embed&_fields=title,slug,excerpt,_links,date&author=1";
 
         if(selectedUser) url += "&author=" + selectedUser;
         if(selectedCategory) url += "&categories=" + selectedCategory;
@@ -77,29 +76,8 @@ function Blog(){
                 {
                     posts.map(post => {
                         return(
-                            <div className="col-md-4 mb-4">
-                                <div className="blog-card">
-                                    <Link to={'/blog/' + post.slug} class="blog-card__image-link" aria-label="Pročitaj članak">
-                                        <WpImage post={post} />
-                                    </Link>
-                                    <div className="blog-card__content">
-                                        <h2 className="blog-card__title">
-                                            <Link to={'/blog/' + post.slug} dangerouslySetInnerHTML={{ __html:post.title.rendered }} />
-                                        </h2>
-                                        <div className="blog-card__excerpt" dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}></div>
-                                    </div>
-                                    <div class="blog-card__footer">
-                                        <time class="blog-card__date" datetime="2026-09-12">
-                                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                            <rect x="3" y="5" width="18" height="16" rx="2"/>
-                                            <path d="M16 3v4M8 3v4M3 10h18"/>
-                                            </svg>
-                                            12. rujna 2026.
-                                        </time>
-
-                                        <Link className="blog-card__read-more" to={'/blog/' + post.slug}>Pročitaj više <span aria-hidden="true">→</span></Link>
-                                    </div>
-                                </div>
+                            <div className="col-md-3 mb-4">
+                                <BlogCard post={post} />
                             </div>
                         )
                     })

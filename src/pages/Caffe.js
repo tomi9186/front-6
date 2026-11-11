@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {Link} from "react-router-dom";
+import ObjectCard from "../components/ObjectCard";
 
 function Caffe(){
     const [posts, setPosts] = useState([]);
@@ -23,10 +23,10 @@ function Caffe(){
     }, []);
 
     useEffect(() => {
-        let url = "https://front6.edukacija.online/backend/wp-json/wp/v2/venue?"
+        let url = "https://front6.edukacija.online/backend/wp-json/wp/v2/venue?_embed"
 
-        if(selectedVenue) url += "venue_type=" + selectedVenue + "&";
-        if(selectedLokacija) url += "lokacija=" + selectedLokacija;
+        if(selectedVenue) url += "&venue_type=" + selectedVenue;
+        if(selectedLokacija) url += "&lokacija=" + selectedLokacija;
 
         fetch(url)
             .then(res => res.json())
@@ -37,7 +37,7 @@ function Caffe(){
     return (
         <div className="container">
             <h1 className="display-4 text-center py-5">Kafići</h1>
-            <div className="row">
+            <div className="row mb-5">
                 <div className="col-md-4">
                     <select
                         className="form-select"
@@ -71,10 +71,8 @@ function Caffe(){
                 {
                     posts.map(post => {
                         return(
-                            <div className="col-md-4">
-                                <h2 dangerouslySetInnerHTML={{ __html: post.title.rendered }}></h2>
-                                <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}></div>
-                                <Link to={'/kafic/' + post.slug}>Pročitaj više</Link>
+                            <div className="col-md-4 mb-4">
+                                <ObjectCard post={post} />
                             </div>
                         )
                     })

@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import ObjectCard from "../components/ObjectCard";
 
 import {
     Search,
@@ -24,7 +24,7 @@ function Caffe() {
 
     useEffect(() => {
 
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/venue?_fields=slug,title,acf,excerpt,venue_type")
+        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/venue?_fields=slug,title,acf,excerpt,venue_type,_links&_embed&per_page=15")
             .then(res => {
                 if (!res.ok) {
                     throw new Error("Greška prilikom dohvaćanja podataka.");
@@ -222,70 +222,7 @@ function Caffe() {
 
                                     <div className="col-md-6 col-lg-4" key={post.slug}>
 
-                                        <article className="venue-card">
-
-                                            <Link
-                                                to={`/restoran/${post.slug}`}
-                                                className="venue-card-image"
-                                            >
-
-                                                {image ? (
-                                                    <img
-                                                        src={image}
-                                                        alt={title}
-                                                        loading="lazy"
-                                                    />
-                                                ) : (
-                                                    <div className="venue-image-placeholder">
-                                                        {isCafe ? <CupHot /> : <ForkKnife />}
-                                                    </div>
-                                                )}
-
-                                                <span className="venue-category">
-                                                    {isCafe ? "Kafić" : "Restoran"}
-                                                </span>
-
-                                            </Link>
-
-                                            <div className="venue-card-content">
-
-                                                <h2>
-                                                    <Link to={`/restoran/${post.slug}`}>
-                                                        <span dangerouslySetInnerHTML={{
-                                                            __html: title
-                                                        }} />
-                                                    </Link>
-                                                </h2>
-
-                                                <div
-                                                    className="venue-card-description"
-                                                    dangerouslySetInnerHTML={{
-                                                        __html: excerpt
-                                                    }}
-                                                />
-
-                                                {post.acf?.adresa && (
-                                                    <div className="venue-location">
-                                                        <PinMap />
-                                                        {post.acf.adresa}
-                                                    </div>
-                                                )}
-
-                                                <div className="venue-card-footer">
-
-                                                    <Link
-                                                        to={`/restoran/${post.slug}`}
-                                                        className="venue-card-link"
-                                                    >
-                                                        Pogledaj objekt
-                                                        <ArrowRight />
-                                                    </Link>
-
-                                                </div>
-
-                                            </div>
-
-                                        </article>
+                                        <ObjectCard post={post} title={title} excerpt={excerpt} image={image} isCafe={isCafe} />
 
                                     </div>
 
