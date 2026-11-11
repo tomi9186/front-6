@@ -1,6 +1,8 @@
 import {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
 
+import WpImage from "../components/WpImage";
+
 import "./Blog.css";
 
 function Blog(){
@@ -27,10 +29,10 @@ function Blog(){
 
     useEffect(() => {
 
-        let url = "https://front6.edukacija.online/backend/wp-json/wp/v2/posts?";
+        let url = "https://front6.edukacija.online/backend/wp-json/wp/v2/posts?_embed&_fields=title,slug,excerpt,_links&author=1";
 
-        if(selectedUser) url += "author=" + selectedUser + "&";
-        if(selectedCategory) url += "categories=" + selectedCategory;
+        if(selectedUser) url += "&author=" + selectedUser;
+        if(selectedCategory) url += "&categories=" + selectedCategory;
 
         fetch(url)
             .then(res => res.json())
@@ -78,12 +80,7 @@ function Blog(){
                             <div className="col-md-4 mb-4">
                                 <div className="blog-card">
                                     <Link to={'/blog/' + post.slug} class="blog-card__image-link" aria-label="Pročitaj članak">
-                                        <img
-                                        class="blog-card__image"
-                                        src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=900&q=85"
-                                        alt={post.title.rendered}
-                                        loading="lazy"
-                                        />
+                                        <WpImage post={post} />
                                     </Link>
                                     <div className="blog-card__content">
                                         <h2 className="blog-card__title">
