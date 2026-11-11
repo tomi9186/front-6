@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import WpImage from "./WpImage";
+import DateTime from "./DateTime";
 
 function BlogCard({ post }) {
 
@@ -20,9 +21,7 @@ function BlogCard({ post }) {
                         <rect x="3" y="5" width="18" height="16" rx="2" />
                         <path d="M16 3v4M8 3v4M3 10h18" />
                     </svg>
-                    <time dateTime={post.date}>
-                       {post.date}
-                    </time>
+                    <DateTime date={post.date} />
                 </time>
 
                 <Link className="blog-card__read-more" to={'/blog/' + post.slug}>Pročitaj više <span aria-hidden="true">→</span></Link>

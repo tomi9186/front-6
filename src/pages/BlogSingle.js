@@ -1,6 +1,7 @@
 
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
+import DateTime from "../components/DateTime";
 
 const API_URL =
     "https://front6.edukacija.online/backend/wp-json/wp/v2";
@@ -344,9 +345,7 @@ function BlogSingle() {
                                     <span className="article-meta-icon" aria-hidden="true">
                                         ▦
                                     </span>
-                                    <time dateTime={post.date}>
-                                        {article.date}
-                                    </time>
+                                    <DateTime date={post.date} />
                                 </div>
 
                                 <div className="article-meta-item">
@@ -523,9 +522,7 @@ function BlogSingle() {
                                                         )}
                                                     </h3>
 
-                                                    <time dateTime={related.date}>
-                                                        {formatDate(related.date)}
-                                                    </time>
+                                                    <DateTime date={related.date} />
                                                 </div>
                                             </Link>
                                         );
