@@ -1,4 +1,5 @@
-
+import { useEffect, useState } from "react";
+import BlogCard from "../components/BlogCard";
 import { Link } from "react-router-dom";
 
 import {
@@ -22,6 +23,16 @@ import {
 import "./Home.css";
 
 function Home() {
+
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/posts?_embed&_fields=title,slug,excerpt,_links,date&per_page=3&author=1")
+            .then(res => res.json())
+            .then(data => setPosts(data))
+            .catch(err => console.error(err));
+    }, []);
+
 
     const features = [
         {
@@ -517,6 +528,20 @@ function Home() {
 
                 </div>
             </section>
+
+            {/* Novosti kao kartice */}
+            {posts.length > 0 && (
+                <section className="py-5 container">
+                    <h2 className="mb-4">Novosti</h2>
+                    <div className="row">
+                        {posts.map((related) => (
+                            <div key={related.id} className="col-md-4 mb-4">
+                                <BlogCard post={related} />
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
 
 
             {/* =================================

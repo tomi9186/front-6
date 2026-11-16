@@ -2,6 +2,8 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import DateTime from "../components/DateTime";
+import BlogCard from "../components/BlogCard";
+import "./Blog.css";
 
 const API_URL =
     "https://front6.edukacija.online/backend/wp-json/wp/v2";
@@ -166,10 +168,10 @@ function BlogSingle() {
                     }
                 }
 
-                // Povezani članci iz prve kategorije.
+                // Povezani članci iz prve kategorije (autor ID=1).
                 if (categoryIds.length) {
                     const relatedResponse = await fetch(
-                        `${API_URL}/posts?categories=${categoryIds[0]}&exclude=${currentPost.id}&per_page=3&_embed=1`,
+                        `${API_URL}/posts?categories=${categoryIds[0]}&author=1&exclude=${currentPost.id}&per_page=3&_embed=1&author=1`,
                         { signal: controller.signal }
                     );
 
@@ -578,6 +580,20 @@ function BlogSingle() {
                     </aside>
 
                 </div>
+
+                {/* Povezani članci kao kartice */}
+                {relatedPosts.length > 0 && (
+                    <section className="mt-5 pt-4">
+                        <h2 className="mb-4">Povezani članci</h2>
+                        <div className="row">
+                            {relatedPosts.map((related) => (
+                                <div key={related.id} className="col-md-4 mb-4">
+                                    <BlogCard post={related} />
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
             </div>
         </div>
     );

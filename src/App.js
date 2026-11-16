@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, matchPath } from 'react-router-dom';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
@@ -22,10 +22,6 @@ import Restaurant from './pages/Restaurant';
 import RestaurantSingle from './pages/RestaurantSingle';
 import Page from './pages/Page';
 
-// Dashboard
-import Prijava from './pages/dashboard/Prijava';
-import Registracija from './pages/dashboard/Registracija';
-
 // Proizvod
 import Analitika from './pages/proizvod/Analitika';
 import Cjenik from './pages/proizvod/Cjenik';
@@ -40,10 +36,32 @@ import ZaKafice from './pages/rjesenja/ZaKafice';
 import ZaRestorane from './pages/rjesenja/ZaRestorane';
 import ZaSlasticarnice from './pages/rjesenja/ZaSlasticarnice';
 
+// Dashboard
+import Prijava from './pages/dashboard/Prijava';
+import Registracija from './pages/dashboard/Registracija';
+import Upravljanje from './pages/dashboard/Upravljanje';
 
 function App() {
+  const { pathname } = useLocation();
+
+  // Određivanje klase na temelju putanje (uključujući dinamičke :slug rute)
+  let pageClass = 'page-default';
+
+  if (pathname === '/') {
+    pageClass = 'page-home';
+  } else if (matchPath('/blog/:slug', pathname)) {
+    pageClass = 'page-blog-single';
+  } else if (matchPath('/kafic/:slug', pathname)) {
+    pageClass = 'page-kafic-single';
+  } else if (matchPath('/restoran/:slug', pathname)) {
+    pageClass = 'page-restoran-single';
+  } else {
+    // Za sve ostale statične rute automatski pretvara "/rjesenja/analitika" -> "page-rjesenja-analitika"
+    pageClass = 'page-' + pathname.slice(1).replaceAll('/', '-');
+  }
+
   return (
-    <BrowserRouter>
+    <div className={`app-wrapper ${pageClass}`}>
       <Header />
       
       <Routes>
@@ -66,9 +84,6 @@ function App() {
         <Route path="/kolacici" element={<Page pageID="230" />} />
         <Route path="/uvjeti-koristenja" element={<Page pageID="555" />} />
 
-        <Route path="/prijava" element={<Prijava />} />
-        <Route path="/registracija" element={<Registracija />} />
-
         <Route path="/rjesenja/analitika" element={<Analitika />} />
         <Route path="/cjenik" element={<Cjenik />} />
         <Route path="/rjesenja/digitalni-jelovnik" element={<DigitalniJelovnik />} />
@@ -81,10 +96,13 @@ function App() {
         <Route path="/za-restorane" element={<ZaRestorane />} />
         <Route path="/za-slasticarnice" element={<ZaSlasticarnice />} />
 
+        <Route path="/prijava" element={<Prijava />} />
+        <Route path="/registracija" element={<Registracija />} />
+        <Route path="/upravljanje" element={<Upravljanje />} />
       </Routes>
 
       <Footer />
-    </BrowserRouter>
+    </div>
   );
 }
 

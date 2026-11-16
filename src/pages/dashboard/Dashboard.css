@@ -1,0 +1,257 @@
+.page-prijava .site-header, .page-registracija .site-header{
+    position: fixed;
+}
+
+.page-prijava .row.g-0.min-vh-100, .page-registracija .row.g-0.min-vh-100{
+    padding-top: 70px;
+}
+
+/* Glavni omotač stranice */
+.login-page {
+    background-color: #f8f7f3; /* Topla off-white pozadina kao na slici */
+    color: #1c242b;
+    overflow-x: hidden;
+}
+
+.login-page + .menuto-footer{
+    display: none;
+}
+
+/* Lijevi stupac - Banner sa slikom i zelenim gradijentom */
+.login-page-banner {
+    /* Zamijeni URL svojom lokalnom slikom iz /assets ili /public */
+    background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1400&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.login-banner-overlay {
+    width: 100%;
+    height: 100%;
+    /* Tamnozeleni MENUTO gradijent s lijeva na desno preko slike */
+    background: linear-gradient(
+        105deg,
+        rgba(17, 67, 33, 0.96) 0%,
+        rgba(17, 67, 33, 0.85) 45%,
+        rgba(17, 67, 33, 0.25) 100%
+    );
+    display: flex;
+    align-items: center;
+    padding: 4rem 5rem;
+}
+
+.login-banner-text {
+    max-width: 520px;
+    color: #ffffff;
+}
+
+.login-banner-text h1 {
+    font-size: 2.85rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+.login-banner-text p {
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
+
+/* Desni stupac - Forma */
+.login-form-section {
+    background-color: #f8f7f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+}
+
+.login-form-wrapper {
+    width: 100%;
+    max-width: 440px;
+}
+
+.login-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1c242b;
+    margin-bottom: 0.4rem;
+}
+
+.login-subtitle {
+    font-size: 0.95rem;
+    color: #55606e;
+    margin-bottom: 2rem;
+}
+
+/* Labele i Input polja */
+.login-form-wrapper .form-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #1c242b;
+    margin-bottom: 0.45rem;
+}
+
+.menuto-input {
+    background-color: #ffffff;
+    border: 1px solid #d5d9de;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: #1c242b;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menuto-input::placeholder {
+    color: #8c959f;
+}
+
+.menuto-input:focus {
+    border-color: #14532d;
+    box-shadow: 0 0 0 3px rgba(20, 83, 45, 0.15);
+    outline: none;
+}
+
+/* Ikona oka unutar polja za lozinku */
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-input-wrapper .menuto-input {
+    padding-right: 2.75rem;
+}
+
+.password-toggle-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6e7781;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+/* Checkbox i Zaboravljena lozinka */
+.menuto-checkbox:checked {
+    background-color: #14532d;
+    border-color: #14532d;
+}
+
+.menuto-checkbox:focus {
+    box-shadow: 0 0 0 3px rgba(20, 83, 45, 0.15);
+    border-color: #14532d;
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+    color: #1c242b;
+    cursor: pointer;
+}
+
+.forgot-password-link {
+    font-size: 0.9rem;
+    color: #14532d;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.forgot-password-link:hover {
+    color: #0e3f21;
+}
+
+/* Glavni zeleni gumb */
+.menuto-cta-btn {
+    background-color: #14532d;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.menuto-cta-btn:hover {
+    background-color: #0f4022;
+}
+
+/* Razdjelnik "ili" */
+.login-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: #55606e;
+    font-size: 0.9rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #d5d9de;
+}
+
+.login-divider span {
+    padding: 0 1rem;
+}
+
+/* Google gumb */
+.google-login-btn {
+    background-color: #ffffff;
+    color: #1c242b;
+    border: 1px solid #d5d9de;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.google-login-btn:hover {
+    background-color: #f3f4f6;
+    border-color: #c2c8d0;
+}
+
+/* Donji link za registraciju */
+.register-prompt {
+    text-align: center;
+    margin-top: 1.75rem;
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    color: #1c242b;
+}
+
+.register-prompt a {
+    color: #14532d;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* Prilagodba za tablete i mobitele */
+@media (max-width: 991.98px) {
+    .login-banner-overlay {
+        padding: 3.5rem 2rem;
+    }
+
+    .login-banner-text h1 {
+        font-size: 2.1rem;
+    }
+
+    .login-form-section {
+        padding: 3rem 1.5rem;
+    }
+}
