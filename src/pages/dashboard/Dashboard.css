@@ -46,6 +46,7 @@
 .login-banner-text {
     max-width: 520px;
     color: #ffffff;
+    animation: loginFadeSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .login-banner-text h1 {
@@ -75,6 +76,7 @@
 .login-form-wrapper {
     width: 100%;
     max-width: 440px;
+    animation: loginFadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
 }
 
 .login-title {
@@ -105,7 +107,7 @@
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
     color: #1c242b;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 
 .menuto-input::placeholder {
@@ -116,6 +118,13 @@
     border-color: #14532d;
     box-shadow: 0 0 0 3px rgba(20, 83, 45, 0.15);
     outline: none;
+}
+
+.menuto-input:disabled {
+    background-color: #f1f3f5;
+    color: #6e7781;
+    cursor: not-allowed;
+    opacity: 0.75;
 }
 
 /* Ikona oka unutar polja za lozinku */
@@ -132,10 +141,23 @@
     right: 14px;
     top: 50%;
     transform: translateY(-50%);
+    padding: 0;
+    border: 0;
+    background: transparent;
     color: #6e7781;
     cursor: pointer;
     display: flex;
     align-items: center;
+    transition: color 0.2s ease, transform 0.15s ease;
+}
+
+.password-toggle-icon:hover:not(:disabled) {
+    color: #14532d;
+}
+
+.password-toggle-icon:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 /* Checkbox i Zaboravljena lozinka */
@@ -147,6 +169,11 @@
 .menuto-checkbox:focus {
     box-shadow: 0 0 0 3px rgba(20, 83, 45, 0.15);
     border-color: #14532d;
+}
+
+.menuto-checkbox:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 .form-check-label {
@@ -176,11 +203,49 @@
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.menuto-cta-btn:hover {
+.menuto-cta-btn:hover:not(:disabled) {
     background-color: #0f4022;
+}
+
+.menuto-cta-btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.menuto-cta-btn:disabled {
+    background-color: #14532d;
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.login-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+.login-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2.5px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: loginSpin 0.75s linear infinite;
+    flex-shrink: 0;
+}
+
+/* Alert animacije */
+.login-alert-error {
+    animation: loginErrorShake 0.4s ease both;
+}
+
+.login-alert-success {
+    animation: loginAlertIn 0.3s ease both;
 }
 
 /* Razdjelnik "ili" */
@@ -218,12 +283,17 @@
     justify-content: center;
     gap: 0.65rem;
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
 }
 
-.google-login-btn:hover {
+.google-login-btn:hover:not(:disabled) {
     background-color: #f3f4f6;
     border-color: #c2c8d0;
+}
+
+.google-login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Donji link za registraciju */
@@ -239,6 +309,72 @@
     color: #14532d;
     font-weight: 600;
     text-decoration: underline;
+}
+
+/* Keyframes */
+@keyframes loginFadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes loginAlertIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes loginErrorShake {
+    0% {
+        opacity: 0;
+        transform: translateX(0);
+    }
+    20% {
+        opacity: 1;
+        transform: translateX(-6px);
+    }
+    40% {
+        transform: translateX(6px);
+    }
+    60% {
+        transform: translateX(-4px);
+    }
+    80% {
+        transform: translateX(4px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes loginSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .login-banner-text,
+    .login-form-wrapper,
+    .login-alert-error,
+    .login-alert-success,
+    .login-spinner {
+        animation: none !important;
+    }
+
+    .login-page * {
+        transition-duration: 0.01ms !important;
+    }
 }
 
 /* Prilagodba za tablete i mobitele */

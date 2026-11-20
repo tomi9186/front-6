@@ -1,30 +1,36 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './Dashboard.css';
 
 function Prijava() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const token = localStorage.getItem("token");
-    const nadimak = localStorage.getItem("nadimak");
-    if(token && nadimak) window.location.href = "/";
+    const navigate = useNavigate();
+    const { isAuthenticated, login } = useAuth();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/", { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
 
     const handleLogin = async (e) => {
+        e.preventDefault();
+        if (loading) return;
 
         setError(null);
         setSuccess(null);
         setLoading(true);
 
-        e.preventDefault();
-
         try {
-
             const response = await fetch("https://front6.edukacija.online/backend/wp-json/jwt-auth/v1/token", {
                 method: "POST",
                 headers: {
@@ -39,29 +45,20 @@ function Prijava() {
             const data = await response.json();
 
             if (!response.ok) {
-                setError(data.message);
+                setError(data.message || "Neispravni podaci za prijavu.");
                 console.error("Greška prilikom prijave:", data);
                 setLoading(false);
             } else {
-
                 setSuccess("Uspješna prijava!");
-
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("nadimak", data.user_display_name);
-
-                window.location.href = "/";
+                login(data.token, data.user_display_name);
+                navigate("/", { replace: true });
             }
-
         } catch (err) {
             console.error("Greška prilikom prijave:", err);
+            setError("Došlo je do greške prilikom povezivanja sa serverom. Pokušajte ponovno.");
+            setLoading(false);
         }
-
-
-
-
-    }
-
-
+    };
 
     return (
         <div className="login-page">
@@ -84,13 +81,17 @@ function Prijava() {
                             <p className="login-subtitle">Dobrodošli natrag! Prijavite se u svoj MENUTO račun</p>
 
                             {error && (
-                                <div className="alert alert-danger" role="alert" dangerouslySetInnerHTML={{
+                                <div
+                                    className="alert alert-danger login-alert-error"
+                                    role="alert"
+                                    dangerouslySetInnerHTML={{
                                         __html: error,
-                                    }} />
+                                    }}
+                                />
                             )}
 
                             {success && (
-                                <div className="alert alert-success" role="alert">
+                                <div className="alert alert-success login-alert-success" role="alert">
                                     {success}
                                 </div>
                             )}
@@ -103,7 +104,10 @@ function Prijava() {
                                         id="email"
                                         className="form-control menuto-input"
                                         placeholder="Primjer: ime@adresa.com"
+                                        value={username}
                                         onChange={(e) => setUsername(e.target.value)}
+                                        disabled={loading}
+                                        required
                                     />
                                 </div>
 
@@ -111,39 +115,73 @@ function Prijava() {
                                     <label htmlFor="password" className="form-label">Lozinka</label>
                                     <div className="password-input-wrapper">
                                         <input
-                                            type="password"
+                                            type={showPassword ? "text" : "password"}
                                             id="password"
                                             className="form-control menuto-input"
                                             placeholder="Unesite lozinku"
+                                            value={password}
                                             onChange={(e) => setPassword(e.target.value)}
+                                            disabled={loading}
+                                            required
                                         />
-                                        <span className="password-toggle-icon" title="Prikaži lozinku">
-                                            {/* SVG ikona oka */}
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                                <line x1="1" y1="1" x2="23" y2="23"></line>
-                                            </svg>
-                                        </span>
+                                        <button
+                                            type="button"
+                                            className="password-toggle-icon"
+                                            onClick={() => setShowPassword((prev) => !prev)}
+                                            disabled={loading}
+                                            aria-label={showPassword ? "Sakrij lozinku" : "Prikaži lozinku"}
+                                            title={showPassword ? "Sakrij lozinku" : "Prikaži lozinku"}
+                                        >
+                                            {showPassword ? (
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            ) : (
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                                                </svg>
+                                            )}
+                                        </button>
                                     </div>
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center mb-4">
                                     <div className="form-check">
-                                        <input type="checkbox" id="remember" className="form-check-input menuto-checkbox" defaultChecked />
+                                        <input
+                                            type="checkbox"
+                                            id="remember"
+                                            className="form-check-input menuto-checkbox"
+                                            defaultChecked
+                                            disabled={loading}
+                                        />
                                         <label htmlFor="remember" className="form-check-label">Zapamti me</label>
                                     </div>
                                     <a href="#" className="forgot-password-link">Zaboravili ste lozinku?</a>
                                 </div>
 
-                                <button type="submit" className="menuto-cta-btn w-100">
-                                    {loading ? "Prijava u tijeku..." : "Prijavi se"}
+                                <button
+                                    type="submit"
+                                    className={`menuto-cta-btn login-submit-btn w-100 ${loading ? "is-loading" : ""}`}
+                                    disabled={loading}
+                                    aria-busy={loading}
+                                >
+                                    {loading ? (
+                                        <>
+                                            <span className="login-spinner" aria-hidden="true"></span>
+                                            <span>Prijava u tijeku...</span>
+                                        </>
+                                    ) : (
+                                        "Prijavi se"
+                                    )}
                                 </button>
 
                                 <div className="login-divider">
                                     <span>ili</span>
                                 </div>
 
-                                <button type="button" className="google-login-btn w-100">
+                                <button type="button" className="google-login-btn w-100" disabled={loading}>
                                     <svg width="18" height="18" viewBox="0 0 24 24">
                                         <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" />
                                         <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.96H1.29v3.14C3.26 21.3 7.31 24 12 24z" />

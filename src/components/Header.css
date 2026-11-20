@@ -630,6 +630,21 @@
     text-decoration: none;
 }
 
+.menuto-mobile-logout-btn {
+    width: 100%;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.menuto-mobile-logout-btn:hover {
+    background: #edf5ea;
+    color: #075b2b;
+}
+
 .menuto-mobile-login span {
     font-size: 23px;
 }

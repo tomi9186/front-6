@@ -1,6 +1,6 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./Header.css";
 
 function Header() {
@@ -10,9 +10,7 @@ function Header() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const navigate = useNavigate();
-
-    const token = localStorage.getItem("token");
-    const nadimak = localStorage.getItem("nadimak");
+    const { nadimak, isAuthenticated, logout } = useAuth();
 
     const closeMobile = () => {
         setMobileOpen(false);
@@ -30,10 +28,10 @@ function Header() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("nadimak");
-        window.location.href = "/";
-    }
+        logout();
+        closeMobile();
+        navigate("/");
+    };
 
     return (
         <header className="site-header">
@@ -250,48 +248,42 @@ function Header() {
 
                         </ul>
 
-                        
-                        
+                        {isAuthenticated ? (
+                            <div key="auth" className="menuto-header-actions menuto-auth-actions">
+                                <button
+                                    type="button"
+                                    onClick={handleLogout}
+                                    className="menuto-login-btn"
+                                >
+                                    Odjava ({nadimak})
+                                </button>
 
-                            {token && nadimak ? (
+                                <Link
+                                    to="/upravljanje"
+                                    className="menuto-cta-btn"
+                                >
+                                    Dashboard
+                                    <span>→</span>
+                                </Link>
+                            </div>
+                        ) : (
+                            <div key="guest" className="menuto-header-actions menuto-auth-actions">
+                                <Link
+                                    to="/prijava"
+                                    className="menuto-login-btn"
+                                >
+                                    Prijava
+                                </Link>
 
-                                <div className="menuto-header-actions">
-                                    <button
-                                        onClick={handleLogout}
-                                        className="menuto-login-btn"
-                                    >
-                                        Odjava ({nadimak})
-                                    </button>
-
-                                    <Link
-                                        to="/registracija"
-                                        className="menuto-cta-btn"
-                                    >
-                                        Dashboard
-                                        <span>→</span>
-                                    </Link>
-
-                                </div>
-
-                            ) : (
-                                <div className="menuto-header-actions">
-                                    <Link
-                                        to="/prijava"
-                                        className="menuto-login-btn"
-                                    >
-                                        Prijava
-                                    </Link>
-
-                                    <Link
-                                        to="/registracija"
-                                        className="menuto-cta-btn"
-                                    >
-                                        Isprobaj besplatno
-                                        <span>→</span>
-                                    </Link>
-
-                                </div>
-                            ) }
+                                <Link
+                                    to="/registracija"
+                                    className="menuto-cta-btn"
+                                >
+                                    Isprobaj besplatno
+                                    <span>→</span>
+                                </Link>
+                            </div>
+                        )}
                         
 
                     </div>
@@ -421,23 +413,47 @@ function Header() {
                 </nav>
 
                 <div className="menuto-mobile-footer">
-                    <Link
-                        to="/prijava"
-                        className="menuto-mobile-login"
-                        onClick={closeMobile}
-                    >
-                        <span>♙</span>
-                        Prijava
-                    </Link>
+                    {isAuthenticated ? (
+                        <>
+                            <button
+                                type="button"
+                                onClick={handleLogout}
+                                className="menuto-mobile-login menuto-mobile-logout-btn"
+                            >
+                                <span>♙</span>
+                                Odjava ({nadimak})
+                            </button>
 
-                    <Link
-                        to="/registracija"
-                        className="menuto-cta-btn menuto-mobile-cta"
-                        onClick={closeMobile}
-                    >
-                        Isprobaj besplatno
-                        <span>→</span>
-                    </Link>
+                            <Link
+                                to="/upravljanje"
+                                className="menuto-cta-btn menuto-mobile-cta"
+                                onClick={closeMobile}
+                            >
+                                Dashboard
+                                <span>→</span>
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                to="/prijava"
+                                className="menuto-mobile-login"
+                                onClick={closeMobile}
+                            >
+                                <span>♙</span>
+                                Prijava
+                            </Link>
+
+                            <Link
+                                to="/registracija"
+                                className="menuto-cta-btn menuto-mobile-cta"
+                                onClick={closeMobile}
+                            >
+                                Isprobaj besplatno
+                                <span>→</span>
+                            </Link>
+                        </>
+                    )}
                 </div>
 
             </div>
