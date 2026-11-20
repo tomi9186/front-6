@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthContext';
 // Components
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
 import Home from './pages/Home';
@@ -102,7 +103,9 @@ function App() {
 
           <Route path="/prijava" element={<Prijava />} />
           <Route path="/registracija" element={<Registracija />} />
-          <Route path="/upravljanje" element={<Upravljanje />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/upravljanje" element={<Upravljanje />} />
+          </Route>
         </Routes>
 
         <Footer />

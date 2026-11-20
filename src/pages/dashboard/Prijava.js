@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Dashboard.css';
 
@@ -14,13 +14,15 @@ function Prijava() {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
     const { isAuthenticated, login } = useAuth();
+    const redirectTo = location.state?.from?.pathname || "/";
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate("/", { replace: true });
+            navigate(redirectTo, { replace: true });
         }
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, navigate, redirectTo]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -51,7 +53,7 @@ function Prijava() {
             } else {
                 setSuccess("Uspješna prijava!");
                 login(data.token, data.user_display_name);
-                navigate("/", { replace: true });
+                navigate(redirectTo, { replace: true });
             }
         } catch (err) {
             console.error("Greška prilikom prijave:", err);
