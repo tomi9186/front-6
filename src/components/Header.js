@@ -11,6 +11,9 @@ function Header() {
 
     const navigate = useNavigate();
 
+    const token = localStorage.getItem("token");
+    const nadimak = localStorage.getItem("nadimak");
+
     const closeMobile = () => {
         setMobileOpen(false);
         setSolutionsOpen(false);
@@ -25,6 +28,12 @@ function Header() {
         setSearchOpen(false);
         setSearchTerm("");
     };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("nadimak");
+        window.location.href = "/";
+    }
 
     return (
         <header className="site-header">
@@ -241,25 +250,49 @@ function Header() {
 
                         </ul>
 
-                        {/* Right actions */}
-                        <div className="menuto-header-actions">
+                        
+                        
 
-                            <Link
-                                to="/prijava"
-                                className="menuto-login-btn"
-                            >
-                                Prijava
-                            </Link>
+                            {token && nadimak ? (
 
-                            <Link
-                                to="/registracija"
-                                className="menuto-cta-btn"
-                            >
-                                Isprobaj besplatno
-                                <span>→</span>
-                            </Link>
+                                <div className="menuto-header-actions">
+                                    <button
+                                        onClick={handleLogout}
+                                        className="menuto-login-btn"
+                                    >
+                                        Odjava ({nadimak})
+                                    </button>
 
-                        </div>
+                                    <Link
+                                        to="/registracija"
+                                        className="menuto-cta-btn"
+                                    >
+                                        Dashboard
+                                        <span>→</span>
+                                    </Link>
+
+                                </div>
+
+                            ) : (
+                                <div className="menuto-header-actions">
+                                    <Link
+                                        to="/prijava"
+                                        className="menuto-login-btn"
+                                    >
+                                        Prijava
+                                    </Link>
+
+                                    <Link
+                                        to="/registracija"
+                                        className="menuto-cta-btn"
+                                    >
+                                        Isprobaj besplatno
+                                        <span>→</span>
+                                    </Link>
+
+                                </div>
+                            ) }
+                        
 
                     </div>
 

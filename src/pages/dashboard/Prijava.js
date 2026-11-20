@@ -7,9 +7,21 @@ function Prijava() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+    const [loading, setLoading] = useState(false);
+
+    const token = localStorage.getItem("token");
+    const nadimak = localStorage.getItem("nadimak");
+    if(token && nadimak) window.location.href = "/";
+
     const handleLogin = async (e) => {
 
-        e.preventDefault();;
+        setError(null);
+        setSuccess(null);
+        setLoading(true);
+
+        e.preventDefault();
 
         try {
 
@@ -27,10 +39,17 @@ function Prijava() {
             const data = await response.json();
 
             if (!response.ok) {
+                setError(data.message);
                 console.error("Greška prilikom prijave:", data);
+                setLoading(false);
             } else {
+
+                setSuccess("Uspješna prijava!");
+
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("nadimak", data.user_display_name);
+
+                window.location.href = "/";
             }
 
         } catch (err) {
@@ -63,6 +82,18 @@ function Prijava() {
                         <div className="login-form-wrapper">
                             <h2 className="login-title">Prijava</h2>
                             <p className="login-subtitle">Dobrodošli natrag! Prijavite se u svoj MENUTO račun</p>
+
+                            {error && (
+                                <div className="alert alert-danger" role="alert" dangerouslySetInnerHTML={{
+                                        __html: error,
+                                    }} />
+                            )}
+
+                            {success && (
+                                <div className="alert alert-success" role="alert">
+                                    {success}
+                                </div>
+                            )}
 
                             <form onSubmit={handleLogin}>
                                 <div className="mb-3">
@@ -104,7 +135,9 @@ function Prijava() {
                                     <a href="#" className="forgot-password-link">Zaboravili ste lozinku?</a>
                                 </div>
 
-                                <button type="submit" className="menuto-cta-btn w-100">Prijavi se</button>
+                                <button type="submit" className="menuto-cta-btn w-100">
+                                    {loading ? "Prijava u tijeku..." : "Prijavi se"}
+                                </button>
 
                                 <div className="login-divider">
                                     <span>ili</span>
