@@ -1,6 +1,41 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 function Registracija(){
+
+    const [ime, setIme] = useState("");
+    const [prezime, setPrezime] = useState("");
+    const [email, setEmail] = useState("");
+    const [lozinka, setLozinka] = useState("");
+
+    const handleRegistration = async (e) => {
+        e.preventDefault();        
+        try{
+            const response = await fetch("https://front6.edukacija.online/backend/wp-json/custom/v1/register", {
+                method: "POST",
+                headers : {
+                    "Content-Type": "application/json"
+                },
+                body : JSON.stringify({
+                    username: email,
+                    password: lozinka,
+                    first_name: ime,
+                    last_name: prezime,
+                    email: email
+                })
+            })
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.log(data);
+            } else {
+                console.log(data);
+            }
+        } catch(err){
+            console.error(err);
+        }
+    }
 
     return(
         <div className="login-page">
@@ -22,7 +57,7 @@ function Registracija(){
                             <h2 className="login-title">Registracija</h2>
                             <p className="login-subtitle">Dobrodošli! Stvorite svoj MENUTO račun</p>
 
-                            <form>
+                            <form onSubmit={handleRegistration}>
 
                                 <div className="row">
                                     <div className="col-md-6 mb-3">
@@ -32,6 +67,8 @@ function Registracija(){
                                             id="firstName"
                                             className="form-control menuto-input"
                                             placeholder="Unesite svoje ime"
+                                            onChange={ (e) => setIme(e.target.value) }
+                                            required
                                         />
                                     </div>
                                     <div className="col-md-6 mb-3">
@@ -41,6 +78,8 @@ function Registracija(){
                                             id="lastName"
                                             className="form-control menuto-input"
                                             placeholder="Unesite svoje prezime"
+                                            onChange={ (e) => setPrezime(e.target.value) }
+                                            required
                                         />
                                     </div>
                                 </div>
@@ -52,6 +91,8 @@ function Registracija(){
                                         id="email" 
                                         className="form-control menuto-input" 
                                         placeholder="Primjer: ime@adresa.com" 
+                                        onChange={ (e) => setEmail(e.target.value) }
+                                        required
                                     />
                                 </div>
 
@@ -63,6 +104,8 @@ function Registracija(){
                                             id="password" 
                                             className="form-control menuto-input" 
                                             placeholder="Unesite lozinku" 
+                                            onChange={ (e) => setLozinka(e.target.value) }
+                                            required
                                         />
                                         <span className="password-toggle-icon" title="Prikaži lozinku">
                                             {/* SVG ikona oka */}
@@ -75,13 +118,13 @@ function Registracija(){
                                 </div>
 
                                 <div className="form-check mb-3">
-                                        <input type="checkbox" id="remember" className="form-check-input menuto-checkbox" defaultChecked />
+                                        <input type="checkbox" id="remember" className="form-check-input menuto-checkbox" defaultChecked required />
                                         <label htmlFor="remember" className="form-check-label">
                                             Slažem se s <Link to="/uvjeti-koristenja">uvjetima korištenja</Link> i prihvaćam <Link to="/politika-privatnosti">politiku privatnosti</Link>.
                                         </label>
                                     </div>
 
-                                <button type="submit" className="menuto-cta-btn w-100">Prijavi se</button>
+                                <button type="submit" className="menuto-cta-btn w-100">Registriraj se</button>
 
                                 <div className="login-divider">
                                     <span>ili</span>

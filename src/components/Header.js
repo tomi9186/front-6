@@ -6,8 +6,6 @@ import "./Header.css";
 function Header() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [solutionsOpen, setSolutionsOpen] = useState(false);
-    const [searchOpen, setSearchOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
 
     const navigate = useNavigate();
     const { nadimak, isAuthenticated, logout } = useAuth();
@@ -15,16 +13,6 @@ function Header() {
     const closeMobile = () => {
         setMobileOpen(false);
         setSolutionsOpen(false);
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-
-        if (!searchTerm.trim()) return;
-
-        navigate(`/blog/?s=${encodeURIComponent(searchTerm.trim())}`);
-        setSearchOpen(false);
-        setSearchTerm("");
     };
 
     const handleLogout = () => {
@@ -413,6 +401,9 @@ function Header() {
                 </nav>
 
                 <div className="menuto-mobile-footer">
+
+
+
                     {isAuthenticated ? (
                         <>
                             <button
