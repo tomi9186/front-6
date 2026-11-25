@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
     ArrowClockwise,
     ArrowRight,
@@ -85,6 +85,7 @@ function getMessage(error) {
 function Upravljanje() {
     const { token, nadimak, logout } = useAuth();
     const [activePage, setActivePage] = useState('home');
+    const [isVenueMenuOpen, setIsVenueMenuOpen] = useState(false);
     const [items, setItems] = useState([]);
     const [categories, setCategories] = useState([]);
     const [venues, setVenues] = useState([]);
@@ -116,6 +117,7 @@ function Upravljanje() {
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
     const [notice, setNotice] = useState('');
+    const venueSwitcherRef = useRef(null);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -162,6 +164,26 @@ function Upravljanje() {
             venue_email: acf.venue_email || ''
         });
     }, [selectedVenue]);
+
+    useEffect(() => {
+        if (!isVenueMenuOpen) return undefined;
+
+        const closeOnOutsideClick = (event) => {
+            if (!venueSwitcherRef.current?.contains(event.target)) {
+                setIsVenueMenuOpen(false);
+            }
+        };
+        const closeOnEscape = (event) => {
+            if (event.key === 'Escape') setIsVenueMenuOpen(false);
+        };
+
+        document.addEventListener('mousedown', closeOnOutsideClick);
+        document.addEventListener('keydown', closeOnEscape);
+        return () => {
+            document.removeEventListener('mousedown', closeOnOutsideClick);
+            document.removeEventListener('keydown', closeOnEscape);
+        };
+    }, [isVenueMenuOpen]);
 
     useEffect(() => {
         if (!printVenueId) return undefined;
@@ -717,9 +739,50 @@ function Upravljanje() {
                     <div className="dashboard-breadcrumb"><span>Radni prostor</span><span>/</span><strong>{navigation.find((item) => item.id === activePage)?.label}</strong></div>
                     <div className="dashboard-topbar-actions">
                         {selectedVenue && (
-                            <button className="dashboard-venue-chip" onClick={() => setActivePage('settings')}>
-                                <span className="venue-chip-dot" /> {getTitle(selectedVenue)} <ChevronDown />
-                            </button>
+                            <div className="dashboard-venue-switcher" ref={venueSwitcherRef}>
+                                <button
+                                    className="dashboard-venue-chip"
+                                    aria-expanded={isVenueMenuOpen}
+                                    aria-haspopup="menu"
+                                    aria-controls="venue-switcher-menu"
+                                    onClick={() => setIsVenueMenuOpen((isOpen) => !isOpen)}
+                                >
+                                    <span className="venue-chip-dot" />
+                                    <span className="dashboard-venue-chip-name">{getTitle(selectedVenue)}</span>
+                                    <ChevronDown />
+                                </button>
+                                {isVenueMenuOpen && (
+                                    <div className="dashboard-venue-menu" id="venue-switcher-menu" role="menu" aria-label="Odaberi ugostiteljski objekt">
+                                        <span className="dashboard-venue-menu-label">MOJI OBJEKTI</span>
+                                        {venues.map((venue) => {
+                                            const isSelected = String(venue.id) === String(selectedVenueId);
+                                            const venueType = venueTypes.find((type) => venue.venue_type?.some(
+                                                (id) => String(id) === String(type.id)
+                                            ));
+
+                                            return (
+                                                <button
+                                                    className={`dashboard-venue-option ${isSelected ? 'is-selected' : ''}`}
+                                                    key={venue.id}
+                                                    role="menuitem"
+                                                    aria-current={isSelected ? 'true' : undefined}
+                                                    onClick={() => {
+                                                        setSelectedVenueId(String(venue.id));
+                                                        setIsVenueMenuOpen(false);
+                                                        setError('');
+                                                    }}
+                                                >
+                                                    <span className="dashboard-venue-option-copy">
+                                                        <strong>{getTitle(venue)}</strong>
+                                                        <small>{[venueType?.name, venue.acf?.venue_city].filter(Boolean).join(' · ') || 'Ugostiteljski objekt'}</small>
+                                                    </span>
+                                                    {isSelected && <Check2 aria-label="Odabrano" />}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
                         )}
                         <button className="dashboard-icon-button" aria-label="Osvježi podatke" onClick={() => window.location.reload()}>
                             <ArrowClockwise />

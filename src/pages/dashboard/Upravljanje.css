@@ -257,6 +257,10 @@
     gap: 10px;
 }
 
+.dashboard-venue-switcher {
+    position: relative;
+}
+
 .dashboard-venue-chip {
     display: inline-flex;
     align-items: center;
@@ -274,10 +278,88 @@
     cursor: pointer;
 }
 
+.dashboard-venue-chip-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .dashboard-venue-chip > svg:last-child {
     flex: 0 0 12px;
     margin-left: 3px;
     color: #8c978f;
+}
+
+.dashboard-venue-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 30;
+    width: min(290px, calc(100vw - 32px));
+    max-height: min(360px, calc(100vh - 100px));
+    overflow-y: auto;
+    padding: 8px;
+    border: 1px solid #e6ece5;
+    border-radius: 11px;
+    background: #fff;
+    box-shadow: 0 15px 40px rgba(22, 48, 30, .14);
+}
+
+.dashboard-venue-menu-label {
+    display: block;
+    padding: 8px 10px 7px;
+    color: #929d94;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .8px;
+}
+
+.dashboard-venue-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+    padding: 10px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: #35443a;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dashboard-venue-option:hover,
+.dashboard-venue-option.is-selected {
+    background: #f0f6ee;
+}
+
+.dashboard-venue-option.is-selected {
+    color: var(--dashboard-green);
+}
+
+.dashboard-venue-option-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 3px;
+}
+
+.dashboard-venue-option-copy strong {
+    overflow: hidden;
+    font-size: 11px;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dashboard-venue-option-copy small {
+    color: #839087;
+    font-size: 9px;
+}
+
+.dashboard-venue-option > svg {
+    flex: 0 0 15px;
+    font-size: 14px;
 }
 
 .venue-chip-dot,
