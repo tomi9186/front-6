@@ -18,10 +18,7 @@ import {
     CheckCircleFill,
     ChevronRight
 } from "react-bootstrap-icons";
-
-
-const API_URL =
-    "https://front6.edukacija.online/backend/wp-json/wp/v2";
+import { WP_REST_URL as API_URL } from "../services/wordpress";
 
 
 // OGLEDNI JELOVNIK - kasnije zamijeniti podacima iz WordPressa

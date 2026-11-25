@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { WP_REST_URL } from "../../services/wordpress";
 
 function Users(){
 
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/users")
+        fetch(`${WP_REST_URL}/users`)
             .then(res => res.json())
             .then(data => setUsers(data))
             .catch(err => console.error(err));

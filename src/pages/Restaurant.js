@@ -1,6 +1,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import ObjectCard from "../components/ObjectCard";
+import { WP_REST_URL } from "../services/wordpress";
 
 import {
     Search,
@@ -22,7 +23,7 @@ function Caffe() {
 
     useEffect(() => {
 
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/venue?_fields=slug,title,acf,excerpt,venue_type,_links&_embed&per_page=15")
+        fetch(`${WP_REST_URL}/venue?_fields=slug,title,acf,excerpt,venue_type,_links&_embed&per_page=15`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error("Greška prilikom dohvaćanja podataka.");

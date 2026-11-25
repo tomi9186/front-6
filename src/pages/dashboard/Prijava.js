@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { WP_JWT_URL } from '../../services/wordpress';
 import './Dashboard.css';
 
 function Prijava() {
@@ -33,7 +34,7 @@ function Prijava() {
         setLoading(true);
 
         try {
-            const response = await fetch("https://front6.edukacija.online/backend/wp-json/jwt-auth/v1/token", {
+            const response = await fetch(`${WP_JWT_URL}/token`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

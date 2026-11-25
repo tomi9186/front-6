@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { WP_REST_URL } from "../services/wordpress";
 
 function CaffeSingle() {
     const { slug } = useParams();
@@ -8,7 +9,7 @@ function CaffeSingle() {
 
     useEffect(() => {
         // Dodan je parametar _embed za dohvat istaknute slike
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/venue?slug=" + slug + "&_embed")
+        fetch(`${WP_REST_URL}/venue?slug=${slug}&_embed`)
             .then(res => res.json())
             .then(data => setPost(data[0]))
             .catch(err => console.error(err));

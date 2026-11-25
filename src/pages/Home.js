@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import BlogCard from "../components/BlogCard";
 import { Link } from "react-router-dom";
+import { WP_REST_URL } from "../services/wordpress";
 
 import {
     CheckCircleFill,
@@ -27,7 +28,7 @@ function Home() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/posts?_embed&_fields=title,slug,excerpt,_links,date&per_page=3&author=1")
+        fetch(`${WP_REST_URL}/posts?_embed&_fields=title,slug,excerpt,_links,date&per_page=3&author=1`)
             .then(res => res.json())
             .then(data => setPosts(data))
             .catch(err => console.error(err));

@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import { WP_REST_URL } from "../services/wordpress";
 
 
 function Page({pageID}){
@@ -6,7 +7,7 @@ function Page({pageID}){
     const [page, setPage] = useState(null);
 
     useEffect(() => {
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/pages/" + pageID)
+        fetch(`${WP_REST_URL}/pages/${pageID}`)
             .then(res => res.json())
             .then(data => setPage(data))
             .catch(err => console.error(err));

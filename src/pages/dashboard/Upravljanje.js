@@ -23,9 +23,8 @@ import {
 } from 'react-bootstrap-icons';
 import { QRCodeSVG } from 'qrcode.react';
 import { useAuth } from '../../context/AuthContext';
+import { WP_REST_URL as API_URL } from '../../services/wordpress';
 import './Upravljanje.css';
-
-const API_URL = 'https://front6.edukacija.online/backend/wp-json/wp/v2';
 
 const navigation = [
     { id: 'home', label: 'Početna', icon: HouseDoor },

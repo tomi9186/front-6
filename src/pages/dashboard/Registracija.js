@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { WP_CUSTOM_URL, WP_JWT_URL } from '../../services/wordpress';
 
 function Registracija(){
 
@@ -19,7 +20,7 @@ function Registracija(){
     const handleRegistration = async (e) => {
         e.preventDefault();        
         try{
-            const response = await fetch("https://front6.edukacija.online/backend/wp-json/custom/v1/register", {
+            const response = await fetch(`${WP_CUSTOM_URL}/register`, {
                 method: "POST",
                 headers : {
                     "Content-Type": "application/json"
@@ -39,7 +40,7 @@ function Registracija(){
                 setErrorMessage(data.message);
                 console.log(data);
             } else {
-                const response = await fetch("https://front6.edukacija.online/backend/wp-json/jwt-auth/v1/token", {
+                const response = await fetch(`${WP_JWT_URL}/token`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

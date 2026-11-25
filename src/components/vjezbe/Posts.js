@@ -1,11 +1,12 @@
 import {useState, useEffect} from 'react';
+import { WP_REST_URL } from '../../services/wordpress';
 
 function Posts(){
 
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/posts?author=1")
+        fetch(`${WP_REST_URL}/posts?author=1`)
             .then(res => res.json())
             .then(data => setPosts(data))
             .catch(err => console.error(err));

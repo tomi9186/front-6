@@ -1,6 +1,7 @@
 import {useState, useEffect} from "react";
 
 import BlogCard from "../components/BlogCard";
+import { WP_REST_URL } from "../services/wordpress";
 
 import "./Blog.css";
 
@@ -15,12 +16,12 @@ function Blog(){
     const [selectedCategory, setSelectedCategory] = useState("");
 
     useEffect(() => {
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/users")
+        fetch(`${WP_REST_URL}/users`)
             .then(res => res.json())
             .then(data => setUsers(data))
             .catch(err => console.error(err));
 
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/categories?_fields=id,name")
+        fetch(`${WP_REST_URL}/categories?_fields=id,name`)
             .then(res => res.json())
             .then(data => setCategories(data))
             .catch(err => console.error(err));
@@ -28,7 +29,7 @@ function Blog(){
 
     useEffect(() => {
 
-        let url = "https://front6.edukacija.online/backend/wp-json/wp/v2/posts?_embed&_fields=title,slug,excerpt,_links,date&author=1";
+        let url = `${WP_REST_URL}/posts?_embed&_fields=title,slug,excerpt,_links,date&author=1`;
 
         if(selectedUser) url += "&author=" + selectedUser;
         if(selectedCategory) url += "&categories=" + selectedCategory;

@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## WordPress API
+
+Set `REACT_APP_WORDPRESS_URL` in the root `.env` file to the WordPress installation base URL (without `/wp-json`). Restart the development server after changing it.
+
 ## Available Scripts
 
 In the project directory, you can run:

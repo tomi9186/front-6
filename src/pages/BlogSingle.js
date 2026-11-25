@@ -4,9 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import DateTime from "../components/DateTime";
 import BlogCard from "../components/BlogCard";
 import "./Blog.css";
-
-const API_URL =
-    "https://front6.edukacija.online/backend/wp-json/wp/v2";
+import { WP_REST_URL as API_URL } from "../services/wordpress";
 
 const FALLBACK_IMAGE =
     "https://placehold.co/1200x700/eef3ee/164e35?text=Blog";

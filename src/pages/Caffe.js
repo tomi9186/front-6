@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import ObjectCard from "../components/ObjectCard";
+import { WP_REST_URL } from "../services/wordpress";
 
 function Caffe(){
     const [posts, setPosts] = useState([]);
@@ -11,19 +12,19 @@ function Caffe(){
     const [selectedLokacija, setSelectedLokacija] = useState("");
 
     useEffect(() => {
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/venue_type?_fields=id,name")
+        fetch(`${WP_REST_URL}/venue_type?_fields=id,name`)
             .then(res => res.json())
             .then(data => setVenueType(data))
             .catch(err => console.log(err))
 
-        fetch("https://front6.edukacija.online/backend/wp-json/wp/v2/lokacija?_fields=id,name&per_page=100")
+        fetch(`${WP_REST_URL}/lokacija?_fields=id,name&per_page=100`)
             .then(res => res.json())
             .then(data => setLokacije(data))
             .catch(err => console.log(err))
     }, []);
 
     useEffect(() => {
-        let url = "https://front6.edukacija.online/backend/wp-json/wp/v2/venue?_embed"
+        let url = `${WP_REST_URL}/venue?_embed`
 
         if(selectedVenue) url += "&venue_type=" + selectedVenue;
         if(selectedLokacija) url += "&lokacija=" + selectedLokacija;
