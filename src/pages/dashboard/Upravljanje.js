@@ -21,6 +21,7 @@ import {
     Trash,
     X
 } from 'react-bootstrap-icons';
+import { QRCodeSVG } from 'qrcode.react';
 import { useAuth } from '../../context/AuthContext';
 import './Upravljanje.css';
 
@@ -30,6 +31,7 @@ const navigation = [
     { id: 'home', label: 'Početna', icon: HouseDoor },
     { id: 'menu', label: 'Jelovnik', icon: Grid3x3Gap },
     { id: 'categories', label: 'Kategorije', icon: Tag },
+    { id: 'qr', label: 'QR kodovi', icon: QrCode },
     { id: 'orders', label: 'Narudžbe', icon: Receipt },
     { id: 'analytics', label: 'Analitika', icon: BarChart },
     { id: 'settings', label: 'Postavke', icon: Sliders }
@@ -64,6 +66,18 @@ function getTitle(post) {
     return post?.title?.rendered || post?.title || 'Bez naziva';
 }
 
+function getPublicMenuUrl(venue, venueTypes) {
+    if (!venue?.slug) return '';
+
+    const typeId = venue.venue_type?.[0];
+    const venueType = venueTypes.find((type) => String(type.id) === String(typeId));
+    const route = venueType?.slug === 'kafic' ? 'kafic'
+        : venueType?.slug === 'restoran' ? 'restoran'
+            : '';
+
+    return route ? `${window.location.origin}/${route}/${encodeURIComponent(venue.slug)}` : '';
+}
+
 function getMessage(error) {
     return error instanceof Error ? error.message : 'Došlo je do neočekivane greške.';
 }
@@ -74,9 +88,12 @@ function Upravljanje() {
     const [items, setItems] = useState([]);
     const [categories, setCategories] = useState([]);
     const [venues, setVenues] = useState([]);
+    const [venueTypes, setVenueTypes] = useState([]);
     const [selectedVenueId, setSelectedVenueId] = useState('');
+    const [printVenueId, setPrintVenueId] = useState('');
     const [venueForm, setVenueForm] = useState({
         title: '',
+        venue_type: '',
         venue_address: '',
         venue_city: '',
         venue_phone: '',
@@ -107,14 +124,16 @@ function Upravljanje() {
             setLoading(true);
             setError('');
             try {
-                const [loadedItems, loadedCategories, loadedVenues] = await Promise.all([
+                const [loadedItems, loadedCategories, loadedVenues, loadedVenueTypes] = await Promise.all([
                     wpRequest(token, 'menu_item?per_page=100&_embed=1', { signal: controller.signal }),
                     wpRequest(token, 'menu_category?per_page=100', { signal: controller.signal }),
-                    wpRequest(token, 'venue?per_page=100', { signal: controller.signal })
+                    wpRequest(token, 'venue?per_page=100&_fields=id,slug,title,acf,venue_type', { signal: controller.signal }),
+                    wpRequest(token, 'venue_type?per_page=100&_fields=id,name,slug', { signal: controller.signal })
                 ]);
                 setItems(loadedItems);
                 setCategories(loadedCategories);
                 setVenues(loadedVenues);
+                setVenueTypes(loadedVenueTypes);
                 setSelectedVenueId((current) => {
                     if (loadedVenues.some((venue) => String(venue.id) === String(current))) return current;
                     return loadedVenues[0] ? String(loadedVenues[0].id) : '';
@@ -136,12 +155,26 @@ function Upravljanje() {
         const acf = selectedVenue?.acf || {};
         setVenueForm({
             title: selectedVenue ? getTitle(selectedVenue) : '',
+            venue_type: selectedVenue?.venue_type?.[0] ? String(selectedVenue.venue_type[0]) : '',
             venue_address: acf.venue_address || '',
             venue_city: acf.venue_city || '',
             venue_phone: acf.venue_phone || '',
             venue_email: acf.venue_email || ''
         });
     }, [selectedVenue]);
+
+    useEffect(() => {
+        if (!printVenueId) return undefined;
+
+        const handleAfterPrint = () => setPrintVenueId('');
+        window.addEventListener('afterprint', handleAfterPrint);
+        const timeoutId = window.setTimeout(() => window.print(), 100);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+            window.removeEventListener('afterprint', handleAfterPrint);
+        };
+    }, [printVenueId]);
 
     const visibleItems = useMemo(() => {
         const query = search.trim().toLocaleLowerCase('hr');
@@ -255,6 +288,7 @@ function Upravljanje() {
             const payload = {
                 title: venueForm.title.trim(),
                 status: 'publish',
+                venue_type: venueForm.venue_type ? [Number(venueForm.venue_type)] : [],
                 acf: {
                     venue_address: venueForm.venue_address,
                     venue_city: venueForm.venue_city,
@@ -277,6 +311,77 @@ function Upravljanje() {
         } finally {
             setSaving(false);
         }
+    }
+
+    function renderQrCodes() {
+        return (
+            <>
+                <div className="dashboard-page-heading">
+                    <div>
+                        <span className="dashboard-eyebrow">ZA VAŠE GOSTE</span>
+                        <h1>QR kodovi</h1>
+                        <p>Ispišite kodove i postavite ih na stolove kako bi gosti otvorili vaš jelovnik.</p>
+                    </div>
+                    {venues.length > 1 && (
+                        <span className="dashboard-item-count">{venues.length} objekta</span>
+                    )}
+                </div>
+                {!venues.length ? (
+                    <section className="dashboard-card">
+                        <EmptyState
+                            title="Najprije dodajte ugostiteljski objekt"
+                            text="QR kod se generira iz javne stranice objekta. Dodajte objekt i odaberite je li kafić ili restoran."
+                            action={() => setActivePage('settings')}
+                        />
+                    </section>
+                ) : (
+                    <div className={`qr-venues-grid ${printVenueId ? 'is-printing' : ''}`}>
+                        {venues.map((venue) => {
+                            const url = getPublicMenuUrl(venue, venueTypes);
+                            const venueType = venueTypes.find((type) => venue.venue_type?.some(
+                                (id) => String(id) === String(type.id)
+                            ));
+                            const isPrintTarget = String(venue.id) === String(printVenueId);
+
+                            return (
+                                <article
+                                    className={`dashboard-card qr-venue-card ${isPrintTarget ? 'is-print-target' : ''}`}
+                                    data-venue-id={venue.id}
+                                    key={venue.id}
+                                >
+                                    <div className="qr-venue-details">
+                                        <span className="dashboard-eyebrow">DIGITALNI JELOVNIK</span>
+                                        <h2>{getTitle(venue)}</h2>
+                                        <span className="qr-venue-type">{venueType?.name || 'Vrsta objekta nije odabrana'}</span>
+                                        {url ? (
+                                            <>
+                                                <a className="qr-public-url" href={url} target="_blank" rel="noreferrer">{url}</a>
+                                                <p>Skeniranjem koda gosti otvaraju javnu stranicu ovog objekta.</p>
+                                                <button className="dashboard-primary-button qr-print-button" onClick={() => setPrintVenueId(venue.id)}>
+                                                    <QrCode /> Ispiši QR kod
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <p>Za generiranje QR koda odaberite vrstu objekta i provjerite da je objekt objavljen.</p>
+                                                <button className="dashboard-light-button qr-print-button" onClick={() => setActivePage('settings')}>
+                                                    <Sliders /> Postavi objekt
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
+                                    {url && (
+                                        <div className="qr-code-frame" aria-label={`QR kod za ${getTitle(venue)}`}>
+                                            <QRCodeSVG value={url} size={220} level="H" includeMargin />
+                                        </div>
+                                    )}
+                                </article>
+                            );
+                        })}
+                    </div>
+                )}
+            </>
+        );
     }
 
     function renderPage() {
@@ -328,6 +433,8 @@ function Upravljanje() {
                 </>
             );
         }
+
+        if (activePage === 'qr') return renderQrCodes();
 
         if (activePage === 'categories') {
             return (
@@ -452,6 +559,15 @@ function Upravljanje() {
                         </div>
                         <div className="dashboard-form-grid">
                             <FormField label="Naziv objekta" name="title" value={venueForm.title} onChange={updateVenueField} required />
+                            <label className="dashboard-field">
+                                <span>Vrsta objekta</span>
+                                <select name="venue_type" value={venueForm.venue_type} onChange={updateVenueField} required>
+                                    <option value="">Odaberite vrstu objekta</option>
+                                    {venueTypes.map((type) => (
+                                        <option key={type.id} value={type.id}>{type.name}</option>
+                                    ))}
+                                </select>
+                            </label>
                             <FormField label="Adresa" name="venue_address" value={venueForm.venue_address} onChange={updateVenueField} placeholder="Ulica i kućni broj" />
                             <FormField label="Grad" name="venue_city" value={venueForm.venue_city} onChange={updateVenueField} placeholder="npr. Zagreb" />
                             <FormField label="Broj telefona" name="venue_phone" value={venueForm.venue_phone} onChange={updateVenueField} type="tel" />
@@ -558,7 +674,7 @@ function Upravljanje() {
     }
 
     return (
-        <div className="menuto-dashboard">
+        <div className={`menuto-dashboard ${printVenueId ? 'is-printing' : ''}`}>
             <aside className="menuto-sidebar">
                 <a className="dashboard-brand" href="/" aria-label="MENUTO početna">
                     <span className="dashboard-brand-mark">✦</span> MENUTO

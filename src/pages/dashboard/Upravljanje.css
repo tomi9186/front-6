@@ -1007,6 +1007,83 @@
     padding: 12px 2px 6px;
 }
 
+.qr-venues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 430px), 1fr));
+    gap: 15px;
+}
+
+.qr-venue-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    min-width: 0;
+    min-height: 270px;
+}
+
+.qr-venue-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.qr-venue-details h2 {
+    overflow: hidden;
+    margin: 0 0 5px;
+    color: #23342a;
+    font-size: 17px;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.qr-venue-type {
+    display: block;
+    color: #78857b;
+    font-size: 10px;
+}
+
+.qr-public-url {
+    display: block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    margin-top: 16px;
+    color: var(--dashboard-green);
+    font-size: 10px;
+    font-weight: 650;
+    text-decoration: underline;
+}
+
+.qr-venue-details p {
+    max-width: 290px;
+    margin: 8px 0 14px;
+    color: #7d8980;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.qr-print-button {
+    min-height: 38px;
+}
+
+.qr-code-frame {
+    display: grid;
+    flex: 0 0 236px;
+    width: 236px;
+    height: 236px;
+    padding: 8px;
+    border: 1px solid #e8eee6;
+    border-radius: 10px;
+    background: #fff;
+    place-items: center;
+}
+
+.qr-code-frame svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
 .chart-row {
     display: grid;
     grid-template-columns: 105px 1fr 24px;
@@ -1363,6 +1440,14 @@
         gap: 9px;
     }
 
+    .qr-venues-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .qr-venue-card {
+        min-height: 240px;
+    }
+
     .dashboard-metric-card {
         min-height: 82px;
         padding: 12px 10px;
@@ -1540,6 +1625,24 @@
         gap: 0;
     }
 
+    .qr-venue-card {
+        align-items: center;
+        flex-direction: column-reverse;
+        gap: 14px;
+        padding: 18px;
+    }
+
+    .qr-venue-details {
+        width: 100%;
+    }
+
+    .qr-code-frame {
+        flex-basis: auto;
+        width: min(100%, 230px);
+        height: auto;
+        aspect-ratio: 1;
+    }
+
     .dashboard-form-footer {
         align-items: flex-start;
         flex-direction: column;
@@ -1561,5 +1664,70 @@
     .menuto-dashboard *::after {
         animation-duration: .01ms !important;
         transition-duration: .01ms !important;
+    }
+}
+
+@page {
+    margin: 14mm;
+}
+
+@media print {
+    .page-upravljanje,
+    .menuto-dashboard {
+        display: block !important;
+        min-height: 0 !important;
+        background: #fff !important;
+    }
+
+    .menuto-sidebar,
+    .menuto-dashboard-topbar,
+    .dashboard-alert,
+    .dashboard-notice,
+    .qr-print-button {
+        display: none !important;
+    }
+
+    .menuto-dashboard.is-printing .dashboard-main {
+        margin: 0 !important;
+    }
+
+    .menuto-dashboard.is-printing .menuto-dashboard-content {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .menuto-dashboard.is-printing .menuto-dashboard-content > * {
+        display: none !important;
+    }
+
+    .menuto-dashboard.is-printing .menuto-dashboard-content > .qr-venues-grid,
+    .menuto-dashboard.is-printing .qr-venue-card.is-print-target {
+        display: block !important;
+    }
+
+    .menuto-dashboard.is-printing .qr-venue-card {
+        display: none !important;
+    }
+
+    .menuto-dashboard.is-printing .qr-venue-card.is-print-target {
+        display: flex !important;
+        justify-content: space-between;
+        min-height: 0;
+        padding: 18mm;
+        border: 0;
+        break-inside: avoid;
+        box-shadow: none;
+    }
+
+    .menuto-dashboard.is-printing .qr-venue-details {
+        max-width: 50%;
+    }
+
+    .menuto-dashboard.is-printing .qr-code-frame {
+        flex: 0 0 80mm;
+        width: 80mm;
+        height: 80mm;
+        padding: 0;
+        border: 0;
     }
 }
