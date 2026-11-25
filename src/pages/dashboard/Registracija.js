@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 function Registracija(){
 
@@ -7,6 +8,13 @@ function Registracija(){
     const [prezime, setPrezime] = useState("");
     const [email, setEmail] = useState("");
     const [lozinka, setLozinka] = useState("");
+
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { login } = useAuth();
+    const redirectTo = location.state?.from?.pathname || "/";
 
     const handleRegistration = async (e) => {
         e.preventDefault();        
@@ -28,9 +36,28 @@ function Registracija(){
             const data = await response.json();
 
             if (!response.ok) {
+                setErrorMessage(data.message);
                 console.log(data);
             } else {
-                console.log(data);
+                const response = await fetch("https://front6.edukacija.online/backend/wp-json/jwt-auth/v1/token", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: email,
+                        password: lozinka
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.error("Greška prilikom prijave:", data);
+                } else {
+                    login(data.token, data.user_display_name);
+                    navigate(redirectTo, { replace: true });
+                }
             }
         } catch(err){
             console.error(err);
@@ -58,6 +85,16 @@ function Registracija(){
                             <p className="login-subtitle">Dobrodošli! Stvorite svoj MENUTO račun</p>
 
                             <form onSubmit={handleRegistration}>
+
+                                { errorMessage && (
+                                    <div
+                                        className="alert alert-danger login-alert-error"
+                                        role="alert"
+                                        dangerouslySetInnerHTML={{
+                                            __html: errorMessage,
+                                        }}
+                                    />
+                                ) }
 
                                 <div className="row">
                                     <div className="col-md-6 mb-3">
